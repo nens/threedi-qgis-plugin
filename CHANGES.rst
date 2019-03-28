@@ -5,6 +5,8 @@ ThreeDiToolBox changelog
 1.7 (unreleased)
 ----------------
 
+- QGIS2 development stops here
+
 - Waterbalance tool now correctly checks whether rain has been aplied to
   simulation
 
