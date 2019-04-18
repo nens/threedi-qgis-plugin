@@ -2,6 +2,7 @@ from ThreeDiToolbox.commands.base.custom_command import CustomCommandBase
 from ThreeDiToolbox.model_checker.model_checker_view import \
     ModelCheckerDialogWidget
 
+from model_checker.model_checks import ThreediModelChecker
 
 class CustomCommand(CustomCommandBase):
 
@@ -29,7 +30,8 @@ class CustomCommand(CustomCommandBase):
         """Runs the script; this should contain the actual implementation of
         the script logic.
         """
-        # db = ThreediDatabase(db_set, db_type)
-        # mc = ModelChecker(db)
-        # mc.parse_model()
-        print('run the command!')
+
+        model_checker = ThreediModelChecker(threedi_db)
+        model_checker.parse_model()
+
+        print('Finished!')
