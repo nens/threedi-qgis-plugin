@@ -131,6 +131,12 @@ except ImportError as e:
     pop_up_info("Error loading threedigrid from "
                 "'external' subdirectory. error %s" % e)
 
+try:
+    import model_checker
+except ImportError as e:
+    pop_up_info("Error loading threedi-modelchecker from 'external'"
+                " subdirectory. error %s" % e)
+
 
 # noinspection PyPep8Naming
 def classFactory(iface):  # pylint: disable=invalid-name
