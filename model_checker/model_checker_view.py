@@ -6,8 +6,8 @@ from qgis.PyQt.QtWidgets import QDialog
 from qgis.PyQt.QtCore import QSettings
 
 from .model_checker_dialog import Ui_Dialog
-from ThreeDiToolbox.utils.threedi_database import get_databases, \
-    ThreediDatabase
+from ThreeDiToolbox.utils.threedi_database import get_databases
+from threedi_modelchecker.threedi_database import ThreediDatabase
 
 FORM_CLASS, _ = uic.loadUiType(
     os.path.join(os.path.dirname(__file__), 'model_checker_dialog.ui')

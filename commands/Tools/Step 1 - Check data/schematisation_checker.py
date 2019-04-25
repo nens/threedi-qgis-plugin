@@ -1,8 +1,17 @@
+import logging
+
+from threedi_modelchecker.model_checks import ThreediModelChecker
+from threedi_modelchecker import exporters
+
+
 from ThreeDiToolbox.commands.base.custom_command import CustomCommandBase
 from ThreeDiToolbox.model_checker.model_checker_view import \
     ModelCheckerDialogWidget
+from ThreeDiToolbox.utils.user_messages import pop_up_info
 
-from model_checker.model_checks import ThreediModelChecker
+
+logger = logging.getLogger(__name__)
+
 
 class CustomCommand(CustomCommandBase):
 
@@ -30,8 +39,11 @@ class CustomCommand(CustomCommandBase):
         """Runs the script; this should contain the actual implementation of
         the script logic.
         """
+        logger.info("Starting schematisation checker")
 
         model_checker = ThreediModelChecker(threedi_db)
-        model_checker.parse_model()
+        models_errors = model_checker.parse_model()
 
-        print('Finished!')
+        summary = exporters.summarize_column_errors(models_errors)
+        pop_up_info(str(summary))
+        # exporters.export_to_file(models_errors, 'temp.txt')

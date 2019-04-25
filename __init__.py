@@ -132,7 +132,8 @@ except ImportError as e:
                 "'external' subdirectory. error %s" % e)
 
 try:
-    import model_checker
+    import threedi_modelchecker
+    # import model_checker
 except ImportError as e:
     pop_up_info("Error loading threedi-modelchecker from 'external'"
                 " subdirectory. error %s" % e)
