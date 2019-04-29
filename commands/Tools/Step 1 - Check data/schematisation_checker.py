@@ -19,6 +19,7 @@ class CustomCommand(CustomCommandBase):
     def __init__(self, **kwargs):
         self.iface = kwargs.get('iface')
         self.modelchecker_widget = None
+        self.plugin_dir = kwargs.get('plugin_dir')
 
     def show_gui(self):
         """Show a GUI as a frontend for this script."""
@@ -45,13 +46,9 @@ class CustomCommand(CustomCommandBase):
         model_checker = ThreediModelChecker(threedi_db)
         models_errors = model_checker.parse_model()
 
-        # summary = exporters.summarize_column_errors(models_errors)
-        # pop_up_info(str(summary))
-
-        cur_dir = os.path.dirname(os.path.abspath(os.path.curdir))
         output_filename = 'Model_errors.txt'
         output_file_path = os.path.join(
-            cur_dir, 'ThreeDiToolbox', output_filename)
+            self.plugin_dir, output_filename)
         exporters.export_to_file(models_errors, output_file_path)
         pop_up_info("Finished, see result in <a href='file:/%s'>%s</a>" %
                     (output_file_path, output_filename))

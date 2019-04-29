@@ -145,7 +145,9 @@ class ThreeDiToolbox(object):
             log.debug(str(mod))
 
             self.command = mod.CustomCommand(
-                iface=self.iface, ts_datasource=self.ts_datasource)
+                iface=self.iface,
+                ts_datasource=self.ts_datasource,
+                plugin_dir=self.plugin_dir)
             self.command.run()
 
     def add_tools(self):
