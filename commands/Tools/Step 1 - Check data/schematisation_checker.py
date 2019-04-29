@@ -1,4 +1,5 @@
 import logging
+import os
 
 from threedi_modelchecker.model_checks import ThreediModelChecker
 from threedi_modelchecker import exporters
@@ -44,6 +45,13 @@ class CustomCommand(CustomCommandBase):
         model_checker = ThreediModelChecker(threedi_db)
         models_errors = model_checker.parse_model()
 
-        summary = exporters.summarize_column_errors(models_errors)
-        pop_up_info(str(summary))
-        # exporters.export_to_file(models_errors, 'temp.txt')
+        # summary = exporters.summarize_column_errors(models_errors)
+        # pop_up_info(str(summary))
+
+        cur_dir = os.path.dirname(os.path.abspath(os.path.curdir))
+        output_filename = 'Model_errors.txt'
+        output_file_path = os.path.join(
+            cur_dir, 'ThreeDiToolbox', output_filename)
+        exporters.export_to_file(models_errors, output_file_path)
+        pop_up_info("Finished, see result in <a href='file:/%s'>%s</a>" %
+                    (output_file_path, output_filename))
