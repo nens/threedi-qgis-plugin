@@ -1,11 +1,8 @@
 import os
-import collections
 
 from qgis.PyQt import uic
 from qgis.PyQt.QtWidgets import QDialog
-from qgis.PyQt.QtCore import QSettings
 
-from .model_checker_dialog import Ui_Dialog
 from ThreeDiToolbox.utils.threedi_database import get_databases
 from threedi_modelchecker.threedi_database import ThreediDatabase
 

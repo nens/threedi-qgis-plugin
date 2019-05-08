@@ -43,6 +43,15 @@ class CustomCommand(CustomCommandBase):
         """
         logger.info("Starting schematisation checker")
 
+        try:
+            threedi_db.check_connection()
+        except Exception as e:
+            pop_up_info(
+                "Unable to start a connection with the database, please check"
+                " the connection settings.")
+            logger.exception("Unable to start a connection with the database")
+            return
+
         model_checker = ThreediModelChecker(threedi_db)
         models_errors = model_checker.parse_model()
 
