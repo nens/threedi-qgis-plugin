@@ -1,37 +1,41 @@
-import os
+# -*- coding: utf-8 -*-
 
-from qgis.PyQt import uic
-from qgis.PyQt.QtWidgets import QDialog
+# Form implementation generated from reading ui file 'model_checker_view.ui'
+#
+# Created by: PyQt5 UI code generator 5.5.1
+#
+# WARNING! All changes made in this file will be lost!
 
-from ThreeDiToolbox.utils.threedi_database import get_databases
-from threedi_modelchecker.threedi_database import ThreediDatabase
+from PyQt5 import QtCore, QtGui, QtWidgets
 
-FORM_CLASS, _ = uic.loadUiType(
-    os.path.join(os.path.dirname(__file__), 'model_checker_dialog.ui')
-)
+class Ui_Dialog(object):
+    def setupUi(self, Dialog):
+        Dialog.setObjectName("Dialog")
+        Dialog.resize(400, 153)
+        self.verticalLayout = QtWidgets.QVBoxLayout(Dialog)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.databaseSelectionGroup = QtWidgets.QGroupBox(Dialog)
+        self.databaseSelectionGroup.setMaximumSize(QtCore.QSize(341, 141))
+        self.databaseSelectionGroup.setObjectName("databaseSelectionGroup")
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.databaseSelectionGroup)
+        self.verticalLayout_2.setObjectName("verticalLayout_2")
+        self.database_combobox = QtWidgets.QComboBox(self.databaseSelectionGroup)
+        self.database_combobox.setObjectName("database_combobox")
+        self.verticalLayout_2.addWidget(self.database_combobox)
+        self.verticalLayout.addWidget(self.databaseSelectionGroup)
+        self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
+        self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
+        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox.setObjectName("buttonBox")
+        self.verticalLayout.addWidget(self.buttonBox)
 
+        self.retranslateUi(Dialog)
+        self.buttonBox.accepted.connect(Dialog.accept)
+        self.buttonBox.rejected.connect(Dialog.reject)
+        QtCore.QMetaObject.connectSlotsByName(Dialog)
 
-class ModelCheckerDialogWidget(QDialog, FORM_CLASS):
-    def __init__(self, iface, command):
-        super(ModelCheckerDialogWidget, self).__init__()
-        self.setupUi(self)
-        self.iface = iface
-        self.command = command
-        self.available_databases = get_databases()
+    def retranslateUi(self, Dialog):
+        _translate = QtCore.QCoreApplication.translate
+        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
+        self.databaseSelectionGroup.setTitle(_translate("Dialog", "Threedi model database"))
 
-        self.database_combobox.addItems(list(self.available_databases.keys()))
-        self.buttonBox.accepted.connect(self.on_accept)
-        self.buttonBox.rejected.connect(self.on_cancel)
-
-    def on_accept(self):
-        selected_database_key = self.database_combobox.currentText()
-        selected_db = self.available_databases.get(selected_database_key)
-        db_type = selected_db.get('db_type')
-        connection_settings = selected_db.get('db_settings')
-
-        threedi_db = ThreediDatabase(connection_settings, db_type=db_type)
-        self.command.run_it(threedi_db)
-        print('accept!')
-
-    def on_cancel(self):
-        print('reject!')

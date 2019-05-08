@@ -6,7 +6,7 @@ from threedi_modelchecker import exporters
 
 
 from ThreeDiToolbox.commands.base.custom_command import CustomCommandBase
-from ThreeDiToolbox.model_checker.model_checker_view import \
+from ThreeDiToolbox.model_checker.model_checker_controller import \
     ModelCheckerDialogWidget
 from ThreeDiToolbox.utils.user_messages import pop_up_info
 
