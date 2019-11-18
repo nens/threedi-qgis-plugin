@@ -212,7 +212,7 @@ def _get_python_interpreter():
     interpreter = None
     executable = sys.executable
     directory, filename = os.path.split(executable)
-    if "python3" in filename.lower():
+    if "python3" or "python" in filename.lower():
         interpreter = executable
     elif "qgis" in filename.lower():
         interpreter = os.path.join(directory, "python3.exe")
