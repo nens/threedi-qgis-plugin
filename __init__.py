@@ -26,6 +26,16 @@ if sys.stderr is not None:
 dependencies.ensure_everything_installed()
 
 
+from ThreeDiToolbox.utils.my_widgets import MyCustomWidgetFactory
+from qgis.gui import QgsGui
+
+widget_editor_registry = QgsGui.editorWidgetRegistry()
+widget_editor_registry.registerWidget(
+    widgetId='mywidget',
+    widgetFactory=MyCustomWidgetFactory('mywidget123')
+)
+
+
 def classFactory(iface):
     """Return ThreeDiToolbox class from file ThreeDiToolbox.
 
