@@ -2,6 +2,7 @@ from qgis.PyQt.QtCore import QObject
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction
 from qgis.PyQt.QtWidgets import QLCDNumber
+from qgis.PyQt.QtWidgets import QLabel
 from ThreeDiToolbox import resources
 from ThreeDiToolbox.misc_tools import About
 from ThreeDiToolbox.misc_tools import CacheClearer
@@ -89,6 +90,7 @@ class ThreeDiPlugin(QObject, ProjectStateMixin):
 
         self.active_ts_datasource = None
         # ^^^ TODO: this doesn't seem to be set in here!
+        self.active_ts_datasource_label = QLabel("No results selected")
         self.group_layer_name = "3Di toolbox layers"
         self.group_layer = None
 
@@ -181,6 +183,7 @@ class ThreeDiPlugin(QObject, ProjectStateMixin):
                 parent=self.iface.mainWindow(),
             )
 
+        self.toolbar_animation.addWidget(self.active_ts_datasource_label)
         self.toolbar_animation.addWidget(self.map_animator_widget)
         self.toolbar_animation.addWidget(self.timeslider_widget)
         # Let lcd display a maximum of 9 digits, this way it can display a maximum
@@ -229,6 +232,17 @@ class ThreeDiPlugin(QObject, ProjectStateMixin):
             "The selected 3di model spatialite: %s",
             self.ts_datasources.model_spatialite_filepath,
         )
+        if self.timeslider_widget.active_ts_datasource:
+            logger.info(f"Active ts_datasource: {self.timeslider_widget.active_ts_datasource.name.value} "
+                        f"({self.timeslider_widget.active_ts_datasource.file_path.value})")
+            self.active_ts_datasource_label.setText(
+                self.timeslider_widget.active_ts_datasource.file_path.value
+            )
+        else:
+            logger.info("Active ts_datasource: None")
+            self.active_ts_datasource_label.setText(
+                "No results selected"
+            )
 
         # Enable/disable tools that depend on netCDF results.
         # For side views also the spatialite needs to be imported or else it
