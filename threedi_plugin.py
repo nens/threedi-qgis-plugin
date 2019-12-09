@@ -34,18 +34,11 @@ from qgis.core import qgsfunction
 @qgsfunction(args='auto', group='ThreediToolbox')
 def model_checks(layer_name, column, feature, parent, context):
     """
-    Calculates the sum of the two parameters value1 and value2.
-    <h2>Example usage:</h2>
-    <ul>
-      <li>my_sum(5, 8) -> 13</li>
-      <li>my_sum("field1", "field2") -> 42</li>
-    </ul>
+    Apply all checks of `layer_name` `column` on feature.
     """
     # model_checks(  @layer_name, 'infiltration_rate' )
     # model_checks(  @layer_name, 'bottom_level' )
 
-    # Get qgis iface
-    from qgis.utils import iface
     from qgis.utils import plugins
     threedi_toolbox = plugins['ThreeDiToolbox']
 
@@ -74,17 +67,34 @@ def model_checks(layer_name, column, feature, parent, context):
         lookup[key] = check_list
 
     relevant_checks = lookup[(table, column)]
+
+    # model_checks(  @layer_name, 'bottom_level' )
+
+    from threedi_modelchecker.threedi_model.models import Base
+    table_dict = {table.__tablename__: table for table in Base.__subclasses__()}
+    cls = table_dict.get(layer_name)
+    instance = session.query(cls).get(pk)
+    for field in list(feature.fields()):
+        setattr(instance, field.name(), feature.attribute(field.name()))
+
     errors = []
     for c in relevant_checks:
         # TODO: apply filter on the pk
-        # TODO: dont use the sqlite values, but the feature.attributes()
         invalid_rows = c.get_invalid(session)
         if any(invalid_rows):
             for r in invalid_rows:
                 if r.id == pk:
-                    errors += c.description()
-                    logger.info(r.id)
-                    logger.info(c.description())
+                    errors.append(c.description())
+                    # logger.info(r.id)
+                    # logger.info(c.description())
+    session.close()
+    if not any(errors):
+        logger.info("Valid")
+        feature.setValid(True)
+    else:
+        logger.info("Invalid")
+        logger.info('\n'.join(errors))
+        feature.setValid(False)
     return not any(errors)
 
 

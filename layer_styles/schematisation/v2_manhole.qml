@@ -240,36 +240,36 @@
     <default applyOnUpdate="0" expression="1" field="zoom_category"/>
   </defaults>
   <constraints>
-    <constraint exp_strength="0" notnull_strength="1" field="id" constraints="3" unique_strength="1"/>
+    <constraint exp_strength="0" notnull_strength="0" field="id" constraints="0" unique_strength="0"/>
     <constraint exp_strength="0" notnull_strength="0" field="display_name" constraints="0" unique_strength="0"/>
     <constraint exp_strength="0" notnull_strength="0" field="code" constraints="0" unique_strength="0"/>
-    <constraint exp_strength="0" notnull_strength="2" field="connection_node_id" constraints="1" unique_strength="0"/>
+    <constraint exp_strength="0" notnull_strength="0" field="connection_node_id" constraints="1" unique_strength="0"/>
     <constraint exp_strength="0" notnull_strength="0" field="shape" constraints="0" unique_strength="0"/>
     <constraint exp_strength="0" notnull_strength="0" field="width" constraints="0" unique_strength="0"/>
     <constraint exp_strength="0" notnull_strength="0" field="length" constraints="0" unique_strength="0"/>
-    <constraint exp_strength="0" notnull_strength="2" field="manhole_indicator" constraints="1" unique_strength="0"/>
-    <constraint exp_strength="0" notnull_strength="2" field="calculation_type" constraints="1" unique_strength="0"/>
-    <constraint exp_strength="0" notnull_strength="2" field="bottom_level" constraints="1" unique_strength="0"/>
-    <constraint exp_strength="0" notnull_strength="2" field="surface_level" constraints="1" unique_strength="0"/>
+    <constraint exp_strength="0" notnull_strength="0" field="manhole_indicator" constraints="0" unique_strength="0"/>
+    <constraint exp_strength="0" notnull_strength="0" field="calculation_type" constraints="0" unique_strength="0"/>
+    <constraint exp_strength="0" notnull_strength="0" field="bottom_level" constraints="0" unique_strength="0"/>
+    <constraint exp_strength="0" notnull_strength="0" field="surface_level" constraints="0" unique_strength="0"/>
     <constraint exp_strength="0" notnull_strength="0" field="drain_level" constraints="0" unique_strength="0"/>
     <constraint exp_strength="0" notnull_strength="0" field="sediment_level" constraints="0" unique_strength="0"/>
     <constraint exp_strength="0" notnull_strength="0" field="zoom_category" constraints="0" unique_strength="0"/>
   </constraints>
   <constraintExpressions>
-    <constraint exp="" desc="" field="id"/>
-    <constraint exp="" desc="" field="display_name"/>
-    <constraint exp="" desc="" field="code"/>
-    <constraint exp="" desc="" field="connection_node_id"/>
-    <constraint exp="" desc="" field="shape"/>
-    <constraint exp="" desc="" field="width"/>
-    <constraint exp="" desc="" field="length"/>
-    <constraint exp="" desc="" field="manhole_indicator"/>
-    <constraint exp="" desc="" field="calculation_type"/>
-    <constraint exp="" desc="" field="bottom_level"/>
-    <constraint exp="" desc="" field="surface_level"/>
-    <constraint exp="" desc="" field="drain_level"/>
-    <constraint exp="" desc="" field="sediment_level"/>
-    <constraint exp="" desc="" field="zoom_category"/>
+    <constraint exp="model_checks(@layer_name, 'id')" desc="" field="id"/>
+    <constraint exp="model_checks(@layer_name, 'display_name')" desc="" field="display_name"/>
+    <constraint exp="model_checks(@layer_name, 'code')" desc="" field="code"/>
+    <constraint exp="model_checks(@layer_name, 'connection_node_id')" desc="" field="connection_node_id"/>
+    <constraint exp="model_checks(@layer_name, 'shape')" desc="" field="shape"/>
+    <constraint exp="model_checks(@layer_name, 'width')" desc="" field="width"/>
+    <constraint exp="model_checks(@layer_name, 'length')" desc="" field="length"/>
+    <constraint exp="model_checks(@layer_name, 'manhole_indicator')" desc="" field="manhole_indicator"/>
+    <constraint exp="model_checks(@layer_name, 'calculation_type')" desc="" field="calculation_type"/>
+    <constraint exp="model_checks(@layer_name, 'bottom_level')" desc="" field="bottom_level"/>
+    <constraint exp="model_checks(@layer_name, 'surface_level')" desc="" field="surface_level"/>
+    <constraint exp="model_checks(@layer_name, 'drain_level')" desc="" field="drain_level"/>
+    <constraint exp="model_checks(@layer_name, 'sediment_level')" desc="" field="sediment_level"/>
+    <constraint exp="model_checks(@layer_name, 'zoom_category')" desc="" field="zoom_category"/>
   </constraintExpressions>
   <expressionfields/>
   <attributeactions>
