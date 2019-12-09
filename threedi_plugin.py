@@ -28,6 +28,65 @@ logger = logging.getLogger(__name__)
 # Lets call it.
 resources  # noqa
 
+from qgis.core import qgsfunction
+
+
+@qgsfunction(args='auto', group='ThreediToolbox')
+def model_checks(layer_name, column, feature, parent, context):
+    """
+    Calculates the sum of the two parameters value1 and value2.
+    <h2>Example usage:</h2>
+    <ul>
+      <li>my_sum(5, 8) -> 13</li>
+      <li>my_sum("field1", "field2") -> 42</li>
+    </ul>
+    """
+    # model_checks(  @layer_name, 'infiltration_rate' )
+    # model_checks(  @layer_name, 'bottom_level' )
+
+    # Get qgis iface
+    from qgis.utils import iface
+    from qgis.utils import plugins
+    threedi_toolbox = plugins['ThreeDiToolbox']
+
+    # Use this to create a session with the spatialite
+    db_file_path = threedi_toolbox.ts_datasources.spatialite_filepath
+    db_settings = {'db_path': db_file_path}
+
+    pk = feature.id()
+    table = layer_name
+    column = column
+
+    from threedi_modelchecker.model_checks import ThreediModelChecker
+    from threedi_modelchecker.threedi_database import ThreediDatabase
+
+    threedi_db = ThreediDatabase(db_settings, 'spatialite')
+    mc = ThreediModelChecker(threedi_db)
+
+    session = threedi_db.get_session()
+
+    # This should be build somewhere once, probably in the config of modelchecker
+    lookup = {}
+    for check in mc.config.checks:
+        key = (check.table.name, check.column.name)
+        check_list = lookup.get(key, [])
+        check_list.append(check)
+        lookup[key] = check_list
+
+    relevant_checks = lookup[(table, column)]
+    errors = []
+    for c in relevant_checks:
+        # TODO: apply filter on the pk
+        # TODO: dont use the sqlite values, but the feature.attributes()
+        invalid_rows = c.get_invalid(session)
+        if any(invalid_rows):
+            for r in invalid_rows:
+                if r.id == pk:
+                    errors += c.description()
+                    logger.info(r.id)
+                    logger.info(c.description())
+    return not any(errors)
+
 
 class ThreeDiPlugin(QObject, ProjectStateMixin):
     """Main Plugin Class which register toolbar ad menu and add tools """
